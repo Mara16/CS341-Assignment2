@@ -17,7 +17,7 @@ class Server {
 
 	public static void main(String args[]) {
 		try {
-
+			// trivial change
 			// Create server Socket that listens/bonds to port/endpoint address 6666 (any port id of your choice, should be >=1024, as other port addresses are reserved for system use)
 			// The default maximum number of queued incoming connections is 50 (the maximum number of clients to connect to this server)
 			// There is another constructor that can be used to specify the maximum number of connections

@@ -56,7 +56,7 @@ class Client {
 				} else
 					System.out.println();
 
-				System.out.println(str);                // print this response
+				//System.out.println(str);                // print this response
 			}
 
 			System.out.println("Closing the connection and the sockets");

@@ -17,7 +17,6 @@ class Server {
 
 	public static void main(String args[]) {
 		try {
-
 			// Create server Socket that listens/bonds to port/endpoint address 6666 (any port id of your choice, should be >=1024, as other port addresses are reserved for system use)
 			// The default maximum number of queued incoming connections is 50 (the maximum number of clients to connect to this server)
 			// There is another constructor that can be used to specify the maximum number of connections
@@ -80,12 +79,12 @@ class Server {
         String toReturn = "";
 		
 		// All the if and else if cases check if the input string matches one of the commands		
-		if(inputData.matches("Add[:][ ][-]{0,1}[0-9]+")) {
+		if(inputData.matches("add[:][ ][-]{0,1}[0-9]+")) {
 			int num = Integer.parseInt(inputData.trim().replace("add: ", ""));	//Extract the number from the input string
             inputValues.add(num);
 			// Do nothing, return ""
 			
-		} else if(inputData.matches("Remove[:][ ][-]{0,1}[0-9]+")) {
+		} else if(inputData.matches("remove[:][ ][-]{0,1}[0-9]+")) {
 			int num = Integer.parseInt(inputData.trim().replace("remove: ", ""));	//Extract the number from the input string
 			if(inputValues.contains(num))
                 inputValues.remove(inputValues.indexOf(num));
@@ -93,7 +92,7 @@ class Server {
 				toReturn += "unsupported command. The integer does not exist in list.";
 			// Do nothing, return ""
 			
-		} else if(inputData.equals("Get_Summation")) {
+		} else if(inputData.equals("get_summation")) {
 			// Find the summation and append to the returned string
 			int sum = 0;
 			for (int num : inputValues) {
@@ -101,7 +100,7 @@ class Server {
 			}
 			toReturn += sum;
 			
-		}  else if(inputData.equals("Exit")) {
+		}  else if(inputData.equals("exit")) {
 			// Do nothing, return ""
 			
 		} else {

@@ -32,25 +32,25 @@ class Client {
 			BufferedReader inStream = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 
             System.out.print("Your choices of commands (case-sensitive) are:\n" + 
-            " - add: x\n"
+            " - Add: x\n"
             + "   Where x can be any integer value (e.g., \"Add: 74\")\n\n" 
-            + " - remove: x\n"
+            + " - Remove: x\n"
             + "   Where x can be any integer value (e.g., \"Remove: 2\")\n\n"
-            + " - get_summation\n\n"
-            + " - exit\n\n"
+            + " - Get_Summation\n\n"
+            + " - Exit\n\n"
             + "Enter your command: ");
 			
 			String statement = "";
 			Scanner in = new Scanner(System.in);
 			
-			while(!statement.equals("exit")) {
+			while(!statement.equals("Exit")) {
 				statement = in.nextLine();  			// read user input from the terminal data to the server
   
 				outStream.writeBytes(statement+"\n");		// send such input data to the server
 								
 				String str = inStream.readLine();     	// receive response from server
 
-                if(!statement.equals("exit")) {
+                if(!statement.equals("Exit")) {
 					System.out.println(str + "\n");                // print this response
 					System.out.print("Enter your command: ");
 				} else

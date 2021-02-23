@@ -12,6 +12,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class Server {
 
@@ -49,7 +50,7 @@ class Server {
 			
 			// Let's keep reading data from the client, as long as the client does't send "exit".
 			String inputData;
-			while (!(inputData = br.readLine()).equals("exit")) {    
+			while (!(inputData = br.readLine()).equals("Exit")) {    
 				
 				System.out.println("received a message from client: " + inputData);   //print the incoming data from the client
                 
@@ -79,20 +80,22 @@ class Server {
         String toReturn = "";
 		
 		// All the if and else if cases check if the input string matches one of the commands		
-		if(inputData.matches("add[:][ ][-]{0,1}[0-9]+")) {
-			int num = Integer.parseInt(inputData.trim().replace("add: ", ""));	//Extract the number from the input string
-            inputValues.add(num);
+		if(inputData.matches("Add[:][ ][-]{0,1}[0-9]+")) {
+			int num = Integer.parseInt(inputData.trim().replace("Add: ", ""));	//Extract the number from the input string
+			
+			// System.out.println("this is the number: " + num);  TODO: allow multiple numbers to be added at once
+			inputValues.add(num);
 			// Do nothing, return ""
 			
-		} else if(inputData.matches("remove[:][ ][-]{0,1}[0-9]+")) {
-			int num = Integer.parseInt(inputData.trim().replace("remove: ", ""));	//Extract the number from the input string
+		} else if(inputData.matches("Remove[:][ ][-]{0,1}[0-9]+")) {
+			int num = Integer.parseInt(inputData.trim().replace("Remove: ", ""));	//Extract the number from the input string
 			if(inputValues.contains(num))
                 inputValues.remove(inputValues.indexOf(num));
 			else
 				toReturn += "unsupported command. The integer does not exist in list.";
 			// Do nothing, return ""
 			
-		} else if(inputData.equals("get_summation")) {
+		} else if(inputData.equals("Get_Summation")) {
 			// Find the summation and append to the returned string
 			int sum = 0;
 			for (int num : inputValues) {
@@ -100,9 +103,17 @@ class Server {
 			}
 			toReturn += sum;
 			
-		}  else if(inputData.equals("exit")) {
-			// Do nothing, return ""
-			
+		}  else if(inputData.equals("Sort_A")) {
+			Collections.sort(inputValues);
+
+			toReturn = "The sorted list is: ";
+			for (int number : inputValues) {
+				
+				toReturn += Integer.toString(number);
+
+				if(inputValues.size() > 1)
+					toReturn += ", ";
+			}
 		} else {
 			// This case is reached if the command does not match any of the other commands.
 			toReturn = "unsupported command";

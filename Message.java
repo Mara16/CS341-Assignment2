@@ -20,16 +20,29 @@ public class Message {
         userInput = userInput.replace(" ", "");
         String[] commands = userInput.split(";");   // {"Add:1,2,-3", "Add:1,2,-3", "",..}
 
-        // get number of instructions and create array of that size
+        // calculate number of instructions and Instruction[] instruction array to that size
         int numInstructions = commands.length;
         if(commands[numInstructions - 1].equals(""))
             numInstructions -= 1;
         this.instructions = new Instruction[numInstructions];
 
+        // Add each command in String[] commands array to Instruction[] instruction arrays
         int i = 0;
         for (String command: commands){
             this.instructions[i] = new Instruction(command);
             i++;
         }
+    }
+
+    // toString() method for printing the Java Object
+    @Override
+    public String toString() {
+        String str = "start of toString...";
+
+        for(int i = 0; i < instructions.length; i++){
+            str += this.instructions[i] + "";
+        }
+
+        return str;
     }
 }

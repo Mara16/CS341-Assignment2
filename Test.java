@@ -17,11 +17,6 @@ public class Test {
     String testInput = "Add: 10, 20; Remove: 5;";
     Message msg1 = new Message(testInput);
 
-    // for(Instruction ins: msg1.instructions){
-    //   if(ins.command != null)
-    //     System.out.println(ins.command);
-    // }
-
     Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
     String jsonMsg = prettyGson.toJson(msg1);
     System.out.println(jsonMsg);

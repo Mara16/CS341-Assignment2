@@ -63,14 +63,19 @@ class Server {
 			
 			// 1. Receive the JSON file as a string
 			String inputData;
+			Gson gson = new Gson();
 
+			System.out.println("this is the json string received by server: \n" + inputData);
 			while (!(inputData = br.readLine()).equals("Exit")) {
 
+				System.out.println("in loop");
 				System.out.println("received a message from client: " + inputData); // print the incoming data from the client
 
 				// 2. Covert JSON string to Message Object
 				//String result = processCommand(inputData, inputValues);
 				Message message = gson.fromJson(inputData, Message.class);
+				String reply = message.toString();
+				System.out.print(reply);
 
 				//ps.println(result); // respond back to the client
 				ps.println(message); // respond back to the client
@@ -91,7 +96,7 @@ class Server {
 
 	}
 
-	private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
+	/*private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
 
 		String toReturn = "";
 
@@ -139,5 +144,5 @@ class Server {
 		}
 
 		return toReturn;
-	}
+	}*/
 }

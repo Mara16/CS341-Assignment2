@@ -6,7 +6,7 @@
  *   Obsmara Ulloa
  *   Sebin Puthenthara Suresh
  *
- *  Task 1 - instruction thingy
+ *  Task 1 - instruction class
  * */
 
 public class Instruction {

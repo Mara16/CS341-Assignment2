@@ -6,13 +6,16 @@
  *   Obsmara Ulloa
  *   Sebin Puthenthara Suresh
  *
- *  Task 1 - server class
+ *  Task 1 - Server Class 
+ *   1. Establish connection with client 
+ * 	 2. 
  * */
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import com.google.gson.*;
 
 class Server {
 
@@ -57,14 +60,20 @@ class Server {
 
 			// Let's keep reading data from the client, as long as the client does't send
 			// "exit".
+			
+			// 1. Receive the JSON file as a string
 			String inputData;
+
 			while (!(inputData = br.readLine()).equals("Exit")) {
 
 				System.out.println("received a message from client: " + inputData); // print the incoming data from the client
 
-				String result = processCommand(inputData, inputValues);
+				// 2. Covert JSON string to Message Object
+				//String result = processCommand(inputData, inputValues);
+				Message message = gson.fromJson(inputData, Message.class);
 
-				ps.println(result); // respond back to the client
+				//ps.println(result); // respond back to the client
+				ps.println(message); // respond back to the client
 
 			}
 
@@ -88,8 +97,9 @@ class Server {
 
 		// All the if and else if cases check if the input string matches one of the
 		// commands
-		if (inputData.matches("Add[:][ ][-]{0,1}[0-9]+")) {
-			int num = Integer.parseInt(inputData.trim().replace("Add: ", "")); // Extract the number from the input string
+		if (inputData.matches("Add[:][ ][-,0-9]+")) {
+			String numsToAdd = inputData.trim().replace("Add: ", "").replace(" ", "");	// -30,40,50
+			// int num = Integer.parseInt(); // Extract the number from the input string
 
 			// System.out.println("this is the number: " + num); TODO: allow multiple
 			// numbers to be added at once

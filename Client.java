@@ -46,6 +46,8 @@ class Client {
 
 			String statement = "";
 			Scanner in = new Scanner(System.in);
+			Gson gson = new Gson();
+
 
 			while (!statement.equals("Exit")) {
 				// 1. Create Java Message object
@@ -53,11 +55,11 @@ class Client {
 				Message msg = new Message(statement);
 				
 				// 2. Convert Message object to JSON string
-				Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-    			String jsonMsg = prettyGson.toJson(msg);
-				System.out.println(jsonMsg);
+    			String jsonMsg = gson.toJson(msg);
+				System.out.println("this is ur json msg that will be sent to server: \n" + jsonMsg);
+
 				// 3. Send the command over the socket using outStream.writeBytes()
-				outStream.writeBytes(jsonMsg + "\n"); // send such input data to the server
+				outStream.writeBytes(jsonMsg); // send such input data to the server
 
 				// receive response from server
 				String str = inStream.readLine(); 

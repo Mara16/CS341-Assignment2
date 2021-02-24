@@ -19,108 +19,153 @@ import com.google.gson.*;
 
 class Server {
 
-	public static void main(String args[]) {
-		try {
-			// Create server Socket that listens/bonds to port/endpoint address 6666 (any
-			// port id of your choice, should be >=1024, as other port addresses are
-			// reserved for system use)
-			// The default maximum number of queued incoming connections is 50 (the maximum
-			// number of clients to connect to this server)
-			// There is another constructor that can be used to specify the maximum number
-			// of connections
-			ServerSocket mySocket = new ServerSocket(6666);
+    public static final String BYE_MSG = "Goodbye!";
 
-			System.out.println("Startup the server side over port 6666 ....");
+    public static void main(String args[]) {
+        try {
+            // Create server Socket that listens/bonds to port/endpoint address 6666 (any
+            // port id of your choice, should be >=1024, as other port addresses are
+            // reserved for system use)
+            // The default maximum number of queued incoming connections is 50 (the maximum
+            // number of clients to connect to this server)
+            // There is another constructor that can be used to specify the maximum number
+            // of connections
+            ServerSocket mySocket = new ServerSocket(6666);
 
-			// use the created ServerSocket and accept() to start listening for incoming
-			// client requests targeting this server and this port
-			// accept() blocks the current thread (server application) waiting until a
-			// connection is requested by a client.
-			// the created connection with a client is represented by the returned Socket
-			// object.
-			Socket connectedClient = mySocket.accept();
+            System.out.println("Starting the server side over port 6666 ....");
 
-			// reaching this point means that a client established a connection with your
-			// server and this particular port.
-			System.out.println("Connection established");
+            // use the created ServerSocket and accept() to start listening for incoming
+            // client requests targeting this server and this port
+            // accept() blocks the current thread (server application) waiting until a
+            // connection is requested by a client.
+            // the created connection with a client is represented by the returned Socket
+            // object.
+            Socket connectedClient = mySocket.accept();
 
-			// to interact (read incoming data / send data) with the connected client, we
-			// need to create the following:
+            // reaching this point means that a client established a connection with your
+            // server and this particular port.
+            System.out.println("Connection established");
 
-			// BufferReader object to read data coming from the client
-			BufferedReader br = new BufferedReader(new InputStreamReader(connectedClient.getInputStream()));
+            // to interact (read incoming data / send data) with the connected client, we
+            // need to create the following:
 
-			// PrintStream object to send data to the connected client
-			PrintStream ps = new PrintStream(connectedClient.getOutputStream());
+            // BufferReader object to read data coming from the client
+            BufferedReader br = new BufferedReader(new InputStreamReader(connectedClient.getInputStream()));
 
-			// The data layer at the server side is keeping a dynamic list (ArrayList) of
-			// integers (initially empty)
-			// and named as inputValues to handle (add/remove) data to/from the user.
-			ArrayList<Integer> inputValues = new ArrayList<Integer>();
+            // PrintStream object to send data to the connected client
+            PrintStream ps = new PrintStream(connectedClient.getOutputStream());
 
-			// Let's keep reading data from the client, as long as the client does't send
-			// "exit".
-			
-			// 1. Receive the JSON file as a string
-			String inputData;
-			Gson gson = new Gson();
+            // The data layer at the server side is keeping a dynamic list (ArrayList) of
+            // integers (initially empty)
+            // and named as inputValues to handle (add/remove) data to/from the user.
+            ArrayList<Integer> inputValues = new ArrayList<Integer>();
 
-			System.out.println("this is the json string received by server: \n" + inputData);
-			while (!(inputData = br.readLine()).equals("Exit")) {
+            // Let's keep reading data from the client, as long as the client does't send
+            // "exit".
 
-				System.out.println("in loop");
-				System.out.println("received a message from client: " + inputData); // print the incoming data from the client
+            // 1. Receive the JSON file as a string
+            String clientCmd = "_INITIAL";
+            Gson gson = new Gson();
 
-				// 2. Covert JSON string to Message Object
-				//String result = processCommand(inputData, inputValues);
-				Message message = gson.fromJson(inputData, Message.class);
-				String reply = message.toString();
-				System.out.print(reply);
+            // System.out.println("this is the json string received by server: \n" +
+            // inputData);
+            boolean exitCommandGiven = false;
+            do {
 
-				//ps.println(result); // respond back to the client
-				ps.println(message); // respond back to the client
+                System.out.println("in loop");
 
-			}
+                if (!clientCmd.equals("_INITIAL")) {
+                    System.out.println("received a message from client: " + clientCmd); // print the incoming data from
+                                                                                        // the client
+                }
 
-			System.out.println("Closing the connection and the sockets");
+                // 2. Covert JSON string to Message Object
+                // String result = processCommand(inputData, inputValues);
+                String clientJson = br.readLine();
+                System.out.println("Server recieved from client this: " + clientJson);
+				Message message = gson.fromJson(clientJson, Message.class);
+				
 
-			// close the input/output streams and the created client/server sockets
-			ps.close();
-			br.close();
-			mySocket.close();
-			connectedClient.close();
+                Instruction[] clInstructions = message.instructions; // message accesses 'instructions' & return  array of Instruction objects
+                
+                // Message response = new Message(numInstructionsFromUser);    // Response to send back to client
+                // message.instruction - > array of Instruction objects
+                // Each Instruction object -> has num property
+                for (Instruction ins : clInstructions) {
+                    String insResult = processCommand(ins.command, inputValues);    // Process the command within this Instruction, get the return value.
+                    ins.command = insResult;
 
-		} catch (Exception exc) {
-			System.out.println("Error :" + exc.toString());
-		}
+                    if(insResult.equals(BYE_MSG))
+                        exitCommandGiven = true;
 
-	}
+                    // Instruction responseIns = new Instruction("insResult");
+                    // responseIns.num = ins.num;
+                    // responseIns.command = insResult;
+                }
 
-	/*private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
+                String responseJson = gson.toJson(message);
+                ps.println(responseJson); // respond back to the client
 
+            } while (!exitCommandGiven);
+
+            System.out.println("Closing the connection and the sockets");
+
+            // close the input/output streams and the created client/server sockets
+            ps.close();
+            br.close();
+            mySocket.close();
+            connectedClient.close();
+
+        } catch (Exception exc) {
+            System.out.println("Error :" + exc.toString());
+        }
+
+    }
+
+    private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
 		String toReturn = "";
-
 		// All the if and else if cases check if the input string matches one of the
 		// commands
-		if (inputData.matches("Add[:][ ][-,0-9]+")) {
-			String numsToAdd = inputData.trim().replace("Add: ", "").replace(" ", "");	// -30,40,50
-			// int num = Integer.parseInt(); // Extract the number from the input string
+		if (inputData.matches("Add[:][-,0-9]+")) {  
+			String numsToAddStr = inputData.trim().replace("Add:", "").replace(" ", "");	// -30,40,50
+            String[] numsToAdd = numsToAddStr.split(",");
 
-			// System.out.println("this is the number: " + num); TODO: allow multiple
-			// numbers to be added at once
-			inputValues.add(num);
-			// Do nothing, return ""
+			// in case user tries to add invalid nums to inputValues
+			try {
+                for(String numStr: numsToAdd){
+					int num = Integer.parseInt(numStr.trim());
+                    System.out.println("add numbers: ");
+					System.out.println(num);
+					inputValues.add(num);
+				}
+                toReturn = "added successfully.";
+			} catch (Exception e) {
+				toReturn = "Invalid instruction";
+			}
 
-		} else if (inputData.matches("Remove[:][ ][-]{0,1}[0-9]+")) {
-			int num = Integer.parseInt(inputData.trim().replace("Remove: ", "")); // Extract the number from the input string
-			if (inputValues.contains(num))
-				inputValues.remove(inputValues.indexOf(num));
-			else
-				toReturn += "unsupported command. The integer does not exist in list.";
-			// Do nothing, return ""
+			
+		} else if (inputData.matches("Remove[:][-,0-9]+")) { // Remove:67,89,7,-4
+			
+			String onlyNums = inputData.trim().replace("Remove:", "").replace(" ", "");
+			String[] numsToRemove = onlyNums.split(",");
+			
+			// just to check if values to remove are actually in inputValues
+			for (String string : numsToRemove) {
+				if (!inputValues.contains(Integer.parseInt(string))) {
+					return "unsupported command. At least one of the integers does not exist in list.";
+                }
+			}
 
+			// do the actual removal of inputValues
+			for (String string : numsToRemove) {
+				inputValues.remove(inputValues.indexOf(Integer.parseInt(string)));
+			}
+			
+			toReturn = "removed successfully";
+			
 		} else if (inputData.equals("Get_Summation")) {
 			// Find the summation and append to the returned string
+            toReturn = "The summation is ";
 			int sum = 0;
 			for (int num : inputValues) {
 				sum += num;
@@ -129,20 +174,24 @@ class Server {
 
 		} else if (inputData.equals("Sort_A")) {
 			Collections.sort(inputValues);
-
-			toReturn = "The sorted list is: ";
+			toReturn = "The sorted list is: { ";
 			for (int number : inputValues) {
-
-				toReturn += Integer.toString(number);
-
+				toReturn += number + ""; 
 				if (inputValues.size() > 1)
 					toReturn += ", ";
 			}
-		} else {
+            if (inputValues.size() > 1)
+                toReturn = toReturn.substring(0, toReturn.length() - 2);  // removes the last comma.
+
+            toReturn += " }";
+            
+		} else if (inputData.trim().toLowerCase().equals("exit")){
+            return BYE_MSG;
+
+        } else {
 			// This case is reached if the command does not match any of the other commands.
 			toReturn = "unsupported command";
 		}
-
 		return toReturn;
-	}*/
+    }
 }

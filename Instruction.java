@@ -10,14 +10,21 @@
  * */
 
 public class Instruction {
-    
-    public static int cmdCount = 0;  // static variable
+
+    public static int cmdCount = 0; // static variable
     public int num;
     public String command;
-    
-    public Instruction(String command){
+
+    // Default constructor used for sending commands
+    public Instruction(String command) {
         Instruction.cmdCount++;
         this.num = Instruction.cmdCount;
+        this.command = command;
+    }
+
+    // Overloaded constructor for sending responses
+    public Instruction(String command, int responseNum) {
+        this.num = responseNum;
         this.command = command;
     }
 

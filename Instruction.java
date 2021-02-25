@@ -28,18 +28,22 @@
 
 public class Instruction {
 
-    public static int cmdCount = 0; // static variable
-    public int num;
-    public String command;
+    // Static variable that keeps track of 
+    // number of commands in session so far.
+    public static int cmdCount = 0; 
+    
+    public int num;         // Instruction number for this Instruction
+    public String command;  // The content of this Instruction (command/response to client)
 
-    // Default constructor used for sending commands
+    // Default constructor used for sending commands to server
     public Instruction(String command) {
-        Instruction.cmdCount++;
+        Instruction.cmdCount++; // Increase the static variable count
+        
         this.num = Instruction.cmdCount;
         this.command = command;
     }
 
-    // Overloaded constructor for sending responses
+    // Overloaded constructor for sending responses back to Client
     public Instruction(String command, int responseNum) {
         this.num = responseNum;
         this.command = command;

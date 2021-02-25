@@ -50,20 +50,22 @@ class Client {
                 System.out.print(cmdOptions);
 
                 // read user input from teminal & create Java Message object
-                statement = in.nextLine(); 
+                statement = in.nextLine();
                 Message msg = new Message(statement);
 
                 // Convert Message object to JSON string
                 String jsonMsg = gson.toJson(msg);
                 //System.out.println("this is ur json msg that will be sent to server: \n" + jsonMsg);
 
-                // Send the jsonMsg command over the socket to server
+                // Send the jsonMsg command over the socket to server.
+                // NOTE: The "\n" is very important - the server does not properly
+                // perform .readLine() without it.
                 outStream.writeBytes(jsonMsg + "\n"); 
 
-                // receive JSON string response from server
+                // Receive JSON String response from server
                 String str = inStream.readLine();
 
-                // Convert that JSON String to a Java Object 
+                // Convert that JSON String to a Java Message Object 
                 Message objFromJsn = gson.fromJson(str, Message.class);
 
                 //System.out.println("\nConverting from JSON back to Java Object...\n");

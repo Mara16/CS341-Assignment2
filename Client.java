@@ -7,9 +7,9 @@
  *   Sebin Puthenthara Suresh
  *
  *  Client Class
- * 	1. Initiates a connection with the server 
- *  2. Sends user input from Client to server as JSON
- * 	3. receive response from server and display to user
+ * 	 1. Initiates a connection with the server 
+ *   2. Sends user input from Client to server as JSON
+ * 	 3. Receive response from server and display to user
  * */
 
 import java.io.*;

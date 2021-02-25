@@ -6,7 +6,24 @@
  *   Obsmara Ulloa
  *   Sebin Puthenthara Suresh
  *
- *  Task 1 - instruction class
+ * Instruction class
+ *  1. Has the JSON form:
+ *  {
+ *      "num": 1,
+ *      "command": "Add 1",	
+ *  }
+ * 
+ *  2. Has two constructors:
+ *      a. Constructor that takes a command, increases the
+ *      total number of commands in the session (static
+ *      variable), and sets the num and command values.
+ *      This constructor is intended for use by Client.
+ * 
+ *      b. Constructor that takes a command and a number
+ *      This constructor sets the values of num and
+ *      command. This constructor is originally intended 
+ *      for the Server to use, to send a response back 
+ *      to the user.
  * */
 
 public class Instruction {

@@ -8,7 +8,9 @@
  *
  *  Task 1 - Server Class 
  *   1. Establish connection with client 
- * 	 2. Conver jsonMsg
+ * 	 2. Recieve client's commands and take appropriate action
+ *   3. Send reply back to client as a JSON String
+ * 
  * */
 
 import java.io.*;

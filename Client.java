@@ -28,26 +28,26 @@ class Client {
 
             BufferedReader inStream = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 
-			String divider = "\n✼ •• ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ •• ✼\n";
-			System.out.println(divider);
-			String cmdOptions = "Your choices of commands (case-sensitive) are:\n" 
-				+ " - Add: x\n"
-				+ "   Where x can be any integer value (e.g., \"Add: 74\")\n\n" 
-				+ " - Remove: x\n"
-				+ "   Where x can be any integer value (e.g., \"Remove: 2\")\n\n" 
-				+ " - Get_Summation\n\n"
-				+ " - Sort_A\n\n" 
-				+ " - Exit\n\n" 
-				+ " NOTE: Commands may also be chained when seperated by \";\" (e.g., \"Add: 74, 9, 2; Get_Summation\")\n\n"  
-				+ " - Enter your command: ";
-					
-			String statement = "";
+            String divider = "\n✼ •• ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ •• ✼\n";
+            System.out.println(divider);
+            String cmdOptions = "Your choices of commands (case-sensitive) are:\n" 
+                + " - Add: x\n"
+                + "   Where x can be any integer value (e.g., \"Add: 74\")\n\n" 
+                + " - Remove: x\n"
+                + "   Where x can be any integer value (e.g., \"Remove: 2\")\n\n" 
+                + " - Get_Summation\n\n"
+                + " - Sort_A\n\n" 
+                + " - Exit\n\n" 
+                + " NOTE: Commands may also be chained when seperated by \";\" (e.g., \"Add: 74, 9, 2; Get_Summation\")\n\n"  
+                + " - Enter your command: ";
+                    
+            String statement = "";
             Scanner in = new Scanner(System.in);
             Gson gson = new Gson();
 
             while (!statement.equals("Exit")) {
 
-				System.out.print(cmdOptions);
+                System.out.print(cmdOptions);
 
                 // read user input from teminal & create Java Message object
                 statement = in.nextLine(); 
@@ -61,14 +61,14 @@ class Client {
                 outStream.writeBytes(jsonMsg + "\n"); 
 
                 // receive JSON string response from server
-				String str = inStream.readLine();
+                String str = inStream.readLine();
 
-				// Convert that JSON String to a Java Object 
-				Message objFromJsn = gson.fromJson(str, Message.class);
+                // Convert that JSON String to a Java Object 
+                Message objFromJsn = gson.fromJson(str, Message.class);
 
-				//System.out.println("\nConverting from JSON back to Java Object...\n");
-				str = objFromJsn.toString();
-				//System.out.println(objFromJsn.toString());
+                //System.out.println("\nConverting from JSON back to Java Object...\n");
+                str = objFromJsn.toString();
+                //System.out.println(objFromJsn.toString());
 
                 if (!statement.equals("Exit")) {
                     System.out.println("\n" +str + "\n" + divider); // print this response                    

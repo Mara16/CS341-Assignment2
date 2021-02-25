@@ -80,8 +80,8 @@ class Server {
                 // String result = processCommand(inputData, inputValues);
                 String clientJson = br.readLine();
                 System.out.println("Server recieved from client this: " + clientJson);
-				Message message = gson.fromJson(clientJson, Message.class);
-				
+                Message message = gson.fromJson(clientJson, Message.class);
+                
 
                 Instruction[] clInstructions = message.instructions; // message accesses 'instructions' & return  array of Instruction objects
                 
@@ -122,74 +122,74 @@ class Server {
     private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
         String toReturn = "";
         // Determine what command needs to get processed and handle
-		if (inputData.matches("Add[:][-,0-9]+")) {  
-			String numsToAddStr = inputData.trim().replace("Add:", "").replace(" ", "");	// -30,40,50
+        if (inputData.matches("Add[:][-,0-9]+")) {  
+            String numsToAddStr = inputData.trim().replace("Add:", "").replace(" ", "");	// -30,40,50
             String[] numsToAdd = numsToAddStr.split(",");
 
-			// in case user tries to add invalid nums to inputValues
-			try {
+            // in case user tries to add invalid nums to inputValues
+            try {
                 for(String numStr: numsToAdd){
-					int num = Integer.parseInt(numStr.trim());
+                    int num = Integer.parseInt(numStr.trim());
                     System.out.println("Adding number: ");
-					System.out.println(num);
-					inputValues.add(num);
-				}
-                toReturn = "Added successfully";
-			} catch (Exception e) {
-				toReturn = "Invalid instruction";
-			}
-
-			
-		} else if (inputData.matches("Remove[:][-,0-9]+")) { // Remove:67,89,7,-4
-			System.out.println("Removing numbers...");
-			String onlyNums = inputData.trim().replace("Remove:", "").replace(" ", "");
-			String[] numsToRemove = onlyNums.split(",");
-			
-			// check if values to remove are actually in inputValues
-			for (String string : numsToRemove) {
-				if (!inputValues.contains(Integer.parseInt(string))) {
-					return "Unsupported Command. At least one of the integers does not exist in list.";
+                    System.out.println(num);
+                    inputValues.add(num);
                 }
-			}
+                toReturn = "Added successfully";
+            } catch (Exception e) {
+                toReturn = "Invalid instruction";
+            }
 
-			// do the actual removal of inputValues
-			for (String string : numsToRemove) {
+            
+        } else if (inputData.matches("Remove[:][-,0-9]+")) { // Remove:67,89,7,-4
+            System.out.println("Removing numbers...");
+            String onlyNums = inputData.trim().replace("Remove:", "").replace(" ", "");
+            String[] numsToRemove = onlyNums.split(",");
+            
+            // check if values to remove are actually in inputValues
+            for (String string : numsToRemove) {
+                if (!inputValues.contains(Integer.parseInt(string))) {
+                    return "Unsupported Command. At least one of the integers does not exist in list.";
+                }
+            }
+
+            // do the actual removal of inputValues
+            for (String string : numsToRemove) {
                 System.out.println("Removing number: ");
-				inputValues.remove(inputValues.indexOf(Integer.parseInt(string)));
-			}
-			
-			toReturn = "Removed Successfully";
-			
-		} else if (inputData.equals("Get_Summation")) {
+                inputValues.remove(inputValues.indexOf(Integer.parseInt(string)));
+            }
+            
+            toReturn = "Removed Successfully";
+            
+        } else if (inputData.equals("Get_Summation")) {
             // Find the summation and append to the returned string
             System.out.println("Processing summation...");
             toReturn = "The summation is ";
-			int sum = 0;
-			for (int num : inputValues) {
-				sum += num;
-			}
-			toReturn += sum;
+            int sum = 0;
+            for (int num : inputValues) {
+                sum += num;
+            }
+            toReturn += sum;
 
-		} else if (inputData.equals("Sort_A")) {
+        } else if (inputData.equals("Sort_A")) {
             System.out.println("Processing sort...");
             Collections.sort(inputValues);
-			toReturn = "The sorted list is: { ";
-			for (int number : inputValues) {
-				toReturn += number + ""; 
-				if (inputValues.size() > 1)
-					toReturn += ", ";
-			}
+            toReturn = "The sorted list is: { ";
+            for (int number : inputValues) {
+                toReturn += number + ""; 
+                if (inputValues.size() > 1)
+                    toReturn += ", ";
+            }
             if (inputValues.size() > 1)
                 toReturn = toReturn.substring(0, toReturn.length() - 2);  // removes the last comma.
 
             toReturn += " }";
             
-		} else if (inputData.trim().toLowerCase().equals("exit")){
+        } else if (inputData.trim().toLowerCase().equals("exit")){
             return BYE_MSG;
 
         } else {
-			toReturn = "Unsupported command";
-		}
-		return toReturn;
+            toReturn = "Unsupported command";
+        }
+        return toReturn;
     }
 }

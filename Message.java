@@ -42,20 +42,21 @@ public class Message {
 
     // Constructor: Takes a user input and creates the instructions array
     // The inputted string will be of the format:
-    // "Add: 1,2,-3; Remove: 2;"
+    //  "Add: 1,2,-3; Remove: 2;"
     public Message(String userInput) {
         userInput = userInput.replace(" ", ""); // Remove all spaces
         String[] commands = userInput.split(";");
 
-        // calculate number of instructions and Instruction[] instruction array to that
-        // size
+        // Calculate number of instructions
         int numInstructions = commands.length;
         if (commands[numInstructions - 1].equals(""))
             numInstructions -= 1;
+        
+        // Initialize the Instruction array with the correct size
         this.instructions = new Instruction[numInstructions];
 
         // Add each command in String[] commands array to Instruction[] instruction
-        // arrays
+        // arrays, after converting them to Instruction class objects.
         int i = 0;
         for (String command : commands) {
             this.instructions[i] = new Instruction(command);

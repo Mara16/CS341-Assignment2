@@ -44,10 +44,11 @@ public class Message {
     // toString() method for printing the Java Object
     @Override
     public String toString() {
-        String str = "start of toString...";
+        String str = "";
 
         for (int i = 0; i < instructions.length; i++) {
-            str += this.instructions[i] + "";
+            str += this.instructions[i].toString() + " \n";
+            //System.out.println("instruction[" + i + "] is: " + this.instructions[i]);
         }
 
         return str;

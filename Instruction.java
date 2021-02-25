@@ -28,4 +28,9 @@ public class Instruction {
         this.command = command;
     }
 
+    @Override
+    public String toString() {
+        return "Command " + num + " " + command;
+    }
+
 }

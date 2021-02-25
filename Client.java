@@ -55,18 +55,25 @@ class Client {
 
                 // Convert Message object to JSON string
                 String jsonMsg = gson.toJson(msg);
-                System.out.println("this is ur json msg that will be sent to server: \n" + jsonMsg);
+                //System.out.println("this is ur json msg that will be sent to server: \n" + jsonMsg);
 
                 // Send the jsonMsg command over the socket to server
                 outStream.writeBytes(jsonMsg + "\n"); 
 
                 // receive JSON string response from server
-                String str = inStream.readLine();
+				String str = inStream.readLine();
+
+				// Convert that JSON String to a Java Object 
+				Message objFromJsn = gson.fromJson(str, Message.class);
+
+				//System.out.println("\nConverting from JSON back to Java Object...\n");
+				str = objFromJsn.toString();
+				//System.out.println(objFromJsn.toString());
 
                 if (!statement.equals("Exit")) {
-                    System.out.println(str + "\n" + divider); // print this response                    
+                    System.out.println("\n" +str + "\n" + divider); // print this response                    
                 } else
-                    System.out.println(str + "\n"); // Good bye msg
+                    System.out.println("\n" +str + "\n"); // Good bye msg
 
                 // System.out.println(str); // print this response
             }

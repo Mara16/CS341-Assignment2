@@ -8,7 +8,7 @@
  *
  *  Task 1 - Server Class 
  *   1. Establish connection with client 
- * 	 2. 
+ * 	 2. Conver jsonMsg
  * */
 
 import java.io.*;
@@ -63,20 +63,15 @@ class Server {
             // Let's keep reading data from the client, as long as the client does't send
             // "exit".
 
-            // 1. Receive the JSON file as a string
+            // Receive jsnMsg
             String clientCmd = "_INITIAL";
             Gson gson = new Gson();
 
-            // System.out.println("this is the json string received by server: \n" +
-            // inputData);
             boolean exitCommandGiven = false;
             do {
 
-                System.out.println("in loop");
-
                 if (!clientCmd.equals("_INITIAL")) {
-                    System.out.println("received a message from client: " + clientCmd); // print the incoming data from
-                                                                                        // the client
+                    System.out.println("received a message from client: " + clientCmd); // print the incoming data from client
                 }
 
                 // 2. Covert JSON string to Message Object
@@ -149,10 +144,10 @@ class Server {
 			String onlyNums = inputData.trim().replace("Remove:", "").replace(" ", "");
 			String[] numsToRemove = onlyNums.split(",");
 			
-			// just to check if values to remove are actually in inputValues
+			// check if values to remove are actually in inputValues
 			for (String string : numsToRemove) {
 				if (!inputValues.contains(Integer.parseInt(string))) {
-					return "unsupported command. At least one of the integers does not exist in list.";
+					return "Unsupported Command. At least one of the integers does not exist in list.";
                 }
 			}
 
@@ -161,7 +156,7 @@ class Server {
 				inputValues.remove(inputValues.indexOf(Integer.parseInt(string)));
 			}
 			
-			toReturn = "removed successfully";
+			toReturn = "Removed Successfully";
 			
 		} else if (inputData.equals("Get_Summation")) {
 			// Find the summation and append to the returned string
@@ -190,7 +185,7 @@ class Server {
 
         } else {
 			// This case is reached if the command does not match any of the other commands.
-			toReturn = "unsupported command";
+			toReturn = "Unsupported command";
 		}
 		return toReturn;
     }

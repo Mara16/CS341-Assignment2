@@ -6,7 +6,7 @@
  *   Obsmara Ulloa
  *   Sebin Puthenthara Suresh
  *
- *  Task 1 - This a test file. Ignore. 
+ *  This a test file. Ignore. 
  * */
 
 import com.google.gson.*;

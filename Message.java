@@ -6,7 +6,7 @@
     *   Obsmara Ulloa
     *   Sebin Puthenthara Suresh
     *
-    *  Task 1 - Message Class
+    *  Message Class
 */
 public class Message {
 

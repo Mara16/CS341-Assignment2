@@ -118,9 +118,8 @@ class Server {
     }
 
     private static String processCommand(String inputData, ArrayList<Integer> inputValues) {
-		String toReturn = "";
-		// All the if and else if cases check if the input string matches one of the
-		// commands
+        String toReturn = "";
+        // Determine what command needs to get processed and handle
 		if (inputData.matches("Add[:][-,0-9]+")) {  
 			String numsToAddStr = inputData.trim().replace("Add:", "").replace(" ", "");	// -30,40,50
             String[] numsToAdd = numsToAddStr.split(",");
@@ -129,18 +128,18 @@ class Server {
 			try {
                 for(String numStr: numsToAdd){
 					int num = Integer.parseInt(numStr.trim());
-                    System.out.println("add numbers: ");
+                    System.out.println("Adding number: ");
 					System.out.println(num);
 					inputValues.add(num);
 				}
-                toReturn = "added successfully.";
+                toReturn = "Added successfully";
 			} catch (Exception e) {
 				toReturn = "Invalid instruction";
 			}
 
 			
 		} else if (inputData.matches("Remove[:][-,0-9]+")) { // Remove:67,89,7,-4
-			
+			System.out.println("Removing numbers...");
 			String onlyNums = inputData.trim().replace("Remove:", "").replace(" ", "");
 			String[] numsToRemove = onlyNums.split(",");
 			
@@ -153,13 +152,15 @@ class Server {
 
 			// do the actual removal of inputValues
 			for (String string : numsToRemove) {
+                System.out.println("Removing number: ");
 				inputValues.remove(inputValues.indexOf(Integer.parseInt(string)));
 			}
 			
 			toReturn = "Removed Successfully";
 			
 		} else if (inputData.equals("Get_Summation")) {
-			// Find the summation and append to the returned string
+            // Find the summation and append to the returned string
+            System.out.println("Processing summation...");
             toReturn = "The summation is ";
 			int sum = 0;
 			for (int num : inputValues) {
@@ -168,7 +169,8 @@ class Server {
 			toReturn += sum;
 
 		} else if (inputData.equals("Sort_A")) {
-			Collections.sort(inputValues);
+            System.out.println("Processing sort...");
+            Collections.sort(inputValues);
 			toReturn = "The sorted list is: { ";
 			for (int number : inputValues) {
 				toReturn += number + ""; 
@@ -184,7 +186,6 @@ class Server {
             return BYE_MSG;
 
         } else {
-			// This case is reached if the command does not match any of the other commands.
 			toReturn = "Unsupported command";
 		}
 		return toReturn;

@@ -29,6 +29,7 @@ class Server {
             int port = 6666;
             ServerSocket mySocket = new ServerSocket(port);
 
+            System.out.println("\033[0;36m");
             System.out.println("Starting the server side over port " + port + " ....");
 
             // use the created ServerSocket and accept() to start listening for incoming
@@ -60,7 +61,7 @@ class Server {
 
                 // 2. Covert JSON string to Message Object
                 String clientJson = br.readLine();
-                System.out.println("Server recieved from client this: " + clientJson);
+                System.out.println("Server recieved this from client: \033[0;33m" + clientJson + "\033[0;36m");
                 Message message = gson.fromJson(clientJson, Message.class);
                 
                 // The array of Instruction objects that's contained in a Message object
@@ -75,7 +76,9 @@ class Server {
                 for (Instruction ins : clInstructions) {
 
                     // Process the command within this Instruction, get the return value.
-                    String insResult = processCommand(ins.command, inputValues);    
+                    System.out.println("\033[0;32m");
+                    String insResult = processCommand(ins.command, inputValues);
+                    System.out.println("\033[0;36m");
                     
                     // Set the response message
                     ins.command = insResult;
@@ -103,7 +106,9 @@ class Server {
 
         } catch (Exception exc) {
             System.out.println("Error :" + exc.toString());
+            System.out.println("\033[0m");
         }
+        System.out.println("\033[0m");
 
     }
 

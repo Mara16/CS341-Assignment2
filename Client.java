@@ -29,7 +29,7 @@ class Client {
             BufferedReader inStream = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 
             String divider = "\n✼ •• ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ •• ✼\n";
-            System.out.println(divider);
+            System.out.println("\033[0;36m" + divider + "\033[0m");
             String cmdOptions = "Your choices of commands (case-sensitive) are:\n" 
                 + " - Add: x\n"
                 + "   Where x can be any integer value (e.g., \"Add: 74\")\n\n" 
@@ -46,8 +46,9 @@ class Client {
             Gson gson = new Gson();
 
             while (!statement.equals("Exit")) {
-
+                System.out.println("\033[0;32m");
                 System.out.print(cmdOptions);
+                System.out.println("\033[0m");
 
                 // read user input from teminal & create Java Message object
                 statement = in.nextLine();
@@ -73,10 +74,10 @@ class Client {
                 //System.out.println(objFromJsn.toString());
 
                 if (!statement.equals("Exit")) {
-                    System.out.println("\n" +str + "\n" + divider); // print this response                    
+                    System.out.println("\033[0;33m\n" +str + "\033[0;36m" +  divider + "\033[0m"); // print this response                    
                 } else
-                    System.out.println("\n" +str + "\n"); // Good bye msg
-
+                    System.out.println("\n\033[0;33m" +str + "\n\033[0m"); // Good bye msg
+        
                 // System.out.println(str); // print this response
             }
 
